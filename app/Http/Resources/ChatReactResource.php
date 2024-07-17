@@ -9,18 +9,16 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class ChatReactResource extends JsonResource
 {
-    function get_user($id) {
-        $user = User::where('id',$id)->first();
-        if($user)
-        {
+    function get_user($id)
+    {
+        $user = User::where('id', $id)->first();
+        if ($user) {
             return [
-                'id'   =>$user->id ,
-                'uuid'   =>$user->uuid ,
-                'name' =>$user->name ?? '',
-                'img'  =>$user->profile->avatar ?? null,
+                'id'   => $user->id,
+                'name' => $user->name ?? '',
+                'img'  => $user->image ?? null,
             ];
-        }
-        else{
+        } else {
             return null;
         }
     }
@@ -28,13 +26,11 @@ class ChatReactResource extends JsonResource
 
     public function toArray(Request $request)
     {
-
         return [
             'id'                  => $this->id,
             'user_id'             => $this->user_id,
             'react'               => $this->react,
-            'user'                =>$this->get_user($this->user_id),
+            'user'                => $this->get_user($this->user_id),
         ];
     }
 }
-

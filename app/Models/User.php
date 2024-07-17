@@ -3,14 +3,16 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Traits\FollowTrait;
+use App\Traits\ChatUserTrait;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, FollowTrait,ChatUserTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -19,8 +21,11 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
-        'email',
-        'password',
+        'image',
+        'notification_id',
+        'current_room_chat',
+        'online',
+        'lan'
     ];
 
     /**
@@ -29,17 +34,26 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
-        'password',
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-        'password' => 'hashed',
-    ];
+    public function follows()
+    {
+        return $this->hasMany(Follow::class, 'user_id');
+    }
+
+    public function followers()
+    {
+        return $this->hasMany(Follow::class, 'followed_user_id', 'id');
+    }
+
+    public function followeds()
+    {
+        return $this->hasMany(Follow::class, 'user_id', 'id');
+    }
+    public function followBack(User $user)
+    {
+        $userId = $user->id;
+        return  $this->followers()->where('user_id', $userId)->exists();
+    }
 }

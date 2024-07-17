@@ -133,8 +133,6 @@ class ChatMessagesController extends Controller
                 $album->user_id = $user->id;
 
                 if ($check) {
-                    // $file_name =  Str::uuid().'chat.'.$extension;
-                    // $file->move(public_path('upload/chat_'.$check_room->id), $file_name);
                     $file_name = Common::upload('Chat_'.env('APP_ENV').'/chat_'.$check_room->id,$file);
                     $album->file =  $file_name;
                     $album->type =  'img';
@@ -154,8 +152,6 @@ class ChatMessagesController extends Controller
                     $message->update();
                 }
                 else if ($extension == 'mp4') {
-                    // $file_name =  Str::uuid().'chat.' .$extension;
-                    // $file->move(public_path('upload/chat_'.$check_room->id), $file_name);
                     $file_name =   Common::upload('Chat_'.env('APP_ENV').'/chat_'.$check_room->id,$file);
 
                     $name =  pathinfo($file_name, PATHINFO_FILENAME);
@@ -181,8 +177,7 @@ class ChatMessagesController extends Controller
                 }
 
                 else if ($extension == 'mp3' ||  $extension == 'wav'||  $extension == 'm4a'||  $extension == 'aac')  {
-                    // $file_name =  Str::uuid().'chat.'.$extension;
-                    // $file->move(public_path('upload/chat_'.$check_room->id), $file_name);
+
                     $file_name =  Common::upload('Chat_'.env('APP_ENV').'/chat_'.$check_room->id,$file);
                     $album->file =  $file_name;
                     $album->type =  'voice';
@@ -193,8 +188,6 @@ class ChatMessagesController extends Controller
                     $message->update();
                 }
                 else if ($extension == 'pdf')  {
-                    // $file_name =  Str::uuid().'chat.'.$extension;
-                    // $file->move(public_path('upload/chat_'.$check_room->id), $file_name);
                     $file_name = Common::upload('Chat_'.env('APP_ENV').'/chat_'.$check_room->id,$file);
                     $album->file =  $file_name;
                     $album->type =  'file';
@@ -220,8 +213,6 @@ class ChatMessagesController extends Controller
                     $album->user_id = $user->id;
 
                     if ($check) {
-                        // $file_name =  Str::uuid().'chat.'.$extension;
-                        // $file->move(public_path('upload/chat_'.$check_room->id), $file_name);
                         $file_name = Common::upload('Chat_'.env('APP_ENV').'/chat_'.$check_room->id,$file);
                         $album->file =  $file_name;
                         $album->type =  'img';
@@ -238,8 +229,6 @@ class ChatMessagesController extends Controller
                         $album->save();
                     }
                     else if ($extension == 'mp4') {
-                        // $file_name =  Str::uuid().'chat.' .$extension;
-                        // $file->move(public_path('upload/chat_'.$check_room->id), $file_name);
                         $file_name = Common::upload('Chat_'.env('APP_ENV').'/chat_'.$check_room->id,$file);
                         $name =  pathinfo($file_name, PATHINFO_FILENAME);
 
@@ -259,16 +248,14 @@ class ChatMessagesController extends Controller
 
                     }
                     else if ($extension == 'mp3' ||  $extension == 'wav'||  $extension == 'm4a'||  $extension == 'aac') {
-                        // $file_name =  Str::uuid().'chat.'.$extension;
-                        // $file->move(public_path('upload/chat_'.$check_room->id), $file_name);
+                    
                         $file_name = Common::upload('Chat_'.env('APP_ENV').'/chat_'.$check_room->id,$file);
                         $album->file =  $file_name;
                         $album->type =  'voice';
                         $album->save();
                     }
                     else if ($extension == 'pdf' ) {
-                        // $file_name =  Str::uuid().'chat.'.$extension;
-                        // $file->move(public_path('upload/chat_'.$check_room->id), $file_name);
+
                         $file_name = Common::upload('Chat_'.env('APP_ENV').'/chat_'.$check_room->id,$file);
                         $album->file =  $file_name;
                         $album->type =  'file';

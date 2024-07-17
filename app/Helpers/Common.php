@@ -3,6 +3,7 @@ namespace App\Helpers;
 
 use Illuminate\Support\Str;
 use Kreait\Firebase\Factory;
+use Illuminate\Support\Facades\DB;
 use Twilio\Rest\Client as TwilioClint;
 
 class Common{
@@ -21,26 +22,11 @@ class Common{
             $statusCode = 200;
         }
 
-//        $arr = ['yai'];
-//        $countries = [];
-//        if (in_array (\config ('app.app_origin_name'),$arr)){
-//            $countries = CountryResource::collection (Country::query ()->where ('status',1)->get ());
-//        }
-
         $arr = [
             'success' => $success,
-
             'message' => __($message),
-
-            //                'extra_data'=> [
-            //                    'storage_base_url'=>self::getConf ('storage_base_url') ?:asset ('storage'),
-            //                    'countries'=>$countries
-            //                ],
-
-
             'paginates' => $paginates
         ];
-
 
         if ($isPagination){
 
@@ -48,7 +34,6 @@ class Common{
          }else{
             $arr['data']  = $data;
         }
-
 
         return response ()->json (
             $arr,
@@ -232,7 +217,12 @@ class Common{
 
     // }
 
-    
+     //Get blacklist list
+     public static function getUserBlackList($user_id = null) {
+        if (!$user_id) return [];
+        $ids = DB::table('black_lists')->where('user_id', $user_id)->where('status', 1)->pluck('from_uid')->toArray ();
+        return $ids;
+    }
 
 
 

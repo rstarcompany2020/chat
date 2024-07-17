@@ -15,28 +15,26 @@ class ChatRoomResource extends JsonResource
     {
         $userId = 0;
 
-        if($this->user_id !== $request->user()->id)
-        {
+        if ($this->user_id !== $request->user()->id) {
             $user = User::find($this->user_id2);
             $user2 = User::find($this->user_id);
             $userId = $this->user_id;
-        }
-        else{
+        } else {
             $user = User::find($this->user_id);
             $user2 = User::find($this->user_id2);
             $userId = $this->user_id2;
         }
 
-        $total_undread_message = ChatMessage::where('chat_room_id',$this->id)->where('user_id','not Like',$user->id)->where('status','not Like' ,'seen')->count();
-        
+        $total_undread_message = ChatMessage::where('chat_room_id', $this->id)->where('user_id', 'not Like', $user->id)->where('status', 'not Like', 'seen')->count();
+
         return [
             'user_id'             => @$user2->id ?? $userId,
             'name'                => @$user2->name ?? __('api_responses.fakeName'),
-            'img'                 => @$user2->profile->avatar ??'',
+            'img'                 => @$user2->image ?? '',
             // 'has_color_name'       => Common::hasInPack(@$user2->id, 18, true),
             'chat_id'             => $this->id,
             'unread_message'      => $total_undread_message,
-            'last_message'        => @ new ChatMessageResource( $this->messages[0]),
+            'last_message'        => @new ChatMessageResource($this->messages[0]),
         ];
     }
 }
