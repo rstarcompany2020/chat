@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
@@ -21,11 +22,19 @@ class AuthController extends Controller
                 $img = $request->file('image');
                 $image = Common::upload('profile', $img);
             }
+
+            $validator = Validator::make($request->all(), [
+                "notification_id"=>"required",
+            ]);
+            if ($validator->fails()) {
+                return Common::apiResponse(0, implode(' , ', $validator->errors()->all()), $validator->errors(), 422);
+            }
             $user = User::create([
                 'name' => $request->name,
-                'image' => $image,
+                'image' => $image ??'',
                 'notification_id' => $request->notification_id,
-                'lan' => $request->lan,
+                'lan' => $request->lan ??'en',
+                'online' => 1,
             ]);
         }
         $token = $user->createToken('api_token')->plainTextToken;
