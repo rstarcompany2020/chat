@@ -33,7 +33,7 @@ class AuthController extends Controller
                 'name' => $request->name,
                 'image' => $image ?? '',
                 'notification_id' => $request->notification_id,
-                'lan' => $request->lan ?? 'en',
+                'lan' => app()->getLocale(),
                 'online' => 1,
             ]);
         }
