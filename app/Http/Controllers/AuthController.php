@@ -24,16 +24,16 @@ class AuthController extends Controller
             }
 
             $validator = Validator::make($request->all(), [
-                "notification_id"=>"required",
+                "notification_id" => "required",
             ]);
             if ($validator->fails()) {
                 return Common::apiResponse(0, implode(' , ', $validator->errors()->all()), $validator->errors(), 422);
             }
             $user = User::create([
                 'name' => $request->name,
-                'image' => $image ??'',
+                'image' => $image ?? '',
                 'notification_id' => $request->notification_id,
-                'lan' => $request->lan ??'en',
+                'lan' => $request->lan ?? 'en',
                 'online' => 1,
             ]);
         }
